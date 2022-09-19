@@ -9,7 +9,7 @@
         </div>
         
         <div class="col text-right p-3">
-            <a href="<?php site_url()?>" class = "btn btn-primary" >Criar nova Tarefa</a>
+            <a href="<?php echo site_url('public/main/new_job')?>" class = "btn btn-primary" >Criar nova Tarefa</a>
         </div>
         <hr>
     </div>
@@ -42,6 +42,5 @@
     </table>
     <p>Nº de Tarefas: <strong><?= count($jobs)?></strong></p>
 <?php endif;?>
-<?php ?>
-<?php ?>
+
 <?= $this->endSection() ?>
