@@ -11,21 +11,21 @@ class Main extends Controller
         //dysplay all jobs
         $data['jobs'] = $this->getAllJobs();
 
-        return view('home',$data);
+        return view('home', $data);
     }
 
-    public function new_job(){
-        return view('new_job');
-       
-    }
-
-   public function newjobsubmition()
+    public function new_job()
     {
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        return view('new_job');
+    }
+
+    public function newjobsubmition()
+    {
+         if(!$_SERVER['REQUEST_METHOD'] == 'POST'){
             return redirect()->to(site_url('public/main'));
         }
 
-        $job = $this->request-> getPost('job_name');
+        $job = $this->request->getPost('job_name');
 
         $params = [
             //outro metodo de fazer: 'job' => $this->request-> getPost('job_name');
@@ -40,10 +40,11 @@ class Main extends Controller
         $db->close();
 
         //redirecionar para pagina principal
-        return redirect()->to(site_url('main'));
+        return redirect()->to(site_url('public/main'));
     }
 
-    private function getAllJobs(){
+    private function getAllJobs()
+    {
 
         $db = db_connect();
         $dados = $db->query("SELECT * FROM jobs")->getResultObject();
