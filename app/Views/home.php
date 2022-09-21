@@ -35,7 +35,24 @@
                   <td><?= $job->job?></td> 
                   <td class = "text-center"><?= $job->datetime_created ?></td> 
                   <td class = "text-center"><?= $job->datetime_finished ?></td>
-                  <td>[ações]</td> 
+                  <td>
+                        <!-- tarefa realizada -->
+                        <?php if(empty($job->datetime_finished)):?>
+                            <a href="<?= site_url('public/main/jobdone/'.$job->idjobs)?>"class="btn btn-success btn-sm mx-2"><i class="fa-solid fa-check"></i></a>
+                        <?php else:?>
+                            <button class="btn btn-danger btn-sm mx-2" disabled><i class="fa-solid fa-times"></i></button>
+                        <?php endif;?>
+
+                        <!-- update -->
+                        <?php  if(empty($job->datetime_finished)):?>
+                            <a href="<?= site_url('public/main/editjob/'.$job->idjobs)?>"class="btn btn-primary btn-sm mx-2"><i class="fa fa-pencil"></i></a>
+                        <?php else:?>
+                            <button class="btn btn-primary btn-sm mx-2 " disabled><i class="fa fa-pencil"></i></button>
+                        <?php endif;?>
+
+                        <!--delete-->
+                        <a href="#" class="btn btn-primary btn-sm mx-2"><i class="fa-solid fa-trash"></i></a>
+                  </td> 
                 </tr>
             <?php endforeach;?>
         </tbody>
