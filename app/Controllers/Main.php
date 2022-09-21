@@ -21,7 +21,7 @@ class Main extends Controller
 
     public function newjobsubmition()
     {
-         if(!$_SERVER['REQUEST_METHOD'] == 'POST'){
+        if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
             return redirect()->to(site_url('public/main'));
         }
 
@@ -43,7 +43,8 @@ class Main extends Controller
         return redirect()->to(site_url('public/main'));
     }
 
-    public function jobDone($id_job= -1){
+    public function jobDone($id_job = -1)
+    {
         //atualizar a bd a tarefa como realizada
         $params = [
             'idjob' => $id_job
@@ -55,15 +56,33 @@ class Main extends Controller
             SET datetime_finished = NOW(),
             datetime_updated = NOW()
             WHERE idjobs = :idjob:
-        ",$params);
+        ", $params);
         $db->close();
 
         //atualizar a pagina inicial
         return redirect()->to(site_url('public/main'));
     }
 
+    public function tarefa($id_job = -1)
+    {
+        $params = [
+            'idjob' => $id_job
+        ];
 
-    public function editJob($id_job = -1){
+        $db = db_connect();
+        $db->query("
+            UPDATE jobs
+            SET datetime_finished = NULL,
+            datetime_updated = NOW()
+            WHERE idjobs = :idjob:
+        ", $params);
+        $db->close();
+
+        return redirect()->to(site_url('public/main'));
+    }
+
+    public function editJob($id_job = -1)
+    {
         //carregar dados da tarefa
 
         $params = [
@@ -72,14 +91,15 @@ class Main extends Controller
         $db = db_connect();
         $dados = $db->query("
             SELECT * FROM jobs WHERE idjobs = :id_job:
-        ",$params)->getResultObject();
+        ", $params)->getResultObject();
         $db->close();
-        
+
         $data['job'] = $dados[0];
-        return view('edit_job',$data);
+        return view('edit_job', $data);
     }
 
-    public function editJobSubmition(){
+    public function editJobSubmition()
+    {
 
         //atualizar tarefa no bd
         $params = [
@@ -92,9 +112,41 @@ class Main extends Controller
             SET job = :job:,
             datetime_updated = NOW()
             WHERE idjobs = :id_job:
-        ",$params);
+        ", $params);
         $db->close();
         //atulizar pagina inicial
+        return redirect()->to(site_url('public/main'));
+    }
+
+    public function deleteJob($id_job = -1)
+    {
+
+        //apresentar uma view com caixa de dialogo se deseja eliminar a tarefa
+        $params  = [
+            'id_job' => $id_job
+        ];
+        $db = db_connect();
+        $data['job'] = $db->query("
+            SELECT * FROM jobs WHERE idjobs = :id_job:
+        ", $params)->getResultObject()[0];
+        $db->close();
+
+        //apresentar a view
+        return view('delete_job', $data);
+    }
+
+    public function deleteJobConfirm($id_job = -1)
+    {
+        //delete da bd
+        $params  = [
+            'id_job' => $id_job
+        ];
+        $db = db_connect();
+        $data['job'] = $db->query("
+            DELETE  FROM jobs WHERE idjobs = :id_job:
+        ", $params);
+        $db->close();
+        //atualização da pagina
         return redirect()->to(site_url('public/main'));
     }
     private function getAllJobs()
