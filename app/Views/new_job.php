@@ -15,15 +15,15 @@
 <hr>
 
 <?php
-helper('form');
-echo form_open('public/main/newjobsubmition')
+    helper('form');
+    echo form_open('public/main/newjobsubmition')
 ?>
 <div class="container">
     <div class="row">
         <div class="col-4 offset-4">
             <div class="form-group">
                 <label>Designação da Tarefa:</label>
-                <input type="text" name="job_name" class="form-control" required>
+                <input type="text" name="job_name" placeholder="Tarefa" class="form-control" required>
             </div>
 
             <div class="row">

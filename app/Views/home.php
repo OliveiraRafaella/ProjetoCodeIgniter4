@@ -31,7 +31,7 @@
         </thead>
         <tbody>
             <?php foreach ($jobs as $job) : ?>
-                <tr>
+                <tr>                   
                     <td><?= $job->job ?></td>
                     <td class="text-center"><?= $job->datetime_created ?></td>
                     <td class="text-center"><?= $job->datetime_finished ?></td>
